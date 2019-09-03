@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}test form{% endblock %}
+
+{% block body %}
+
+<div id="formulaire">
+
+    {{ form_start(form) }}
+        {{ form_row(form.nomCouleurComplete) }}
+        {{ form_row(form.couleur)}}
+    <div id="teinte">
+        {{ form_row(form.teinte)}}
+    </div>
+    {{ form_end(form) }}
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('ajax') }}
+    {{ encore_entry_script_tags('index') }}
+{% endblock %}
