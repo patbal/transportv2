@@ -3,7 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Couleur;
-use App\Entity\CouleurComplete;
+use App\Entity\Nuance;
+use App\Entity\Teintes;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -14,52 +15,34 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CouleurCompleteType extends AbstractType
+class NuanceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomCouleurComplete')
-            ->add('couleur', EntityType::class, array(
+            ->add('nom')
+            ->add('couleur', entityType::class, array(
                 'class' => Couleur::class,
                 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')
                     ->orderBy('u.nomCouleur', 'ASC');},
                 'choice_label' => 'nomCouleur',
                 'choice_value' => 'nomCouleur',
+                'placeholder' => '---',
                 'multiple' => false,
                 'expanded' => false
             ))
-            /*->add('teinte', EntityType::class, array(
-                'class' => Teinte::class,
-                'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')
-                    ->orderBy('u.teinte', 'ASC');},
-                'choice_label' => 'teinte',
-                'multiple' => false,
-                'expanded' => false
-            ))*/
-            ->add('save',            submitType::class);
+
         ;
 
         $formModifier = function (FormInterface $form, Couleur $couleur = null) {
-            if ($couleur === null) {
-                $teintes = [];
-            } else {
-                $color = $couleur -> getNomCouleur();
-                $teintes = function (EntityRepository $er) {
-                    return $er->createQueryBuilder('e')
-                        ->andWhere('e.couleur = :val')
-                        ->setParameter('val', $color)
-                        ->orderBy('e.id', 'ASC')
-                        ->setMaxResults(10)
-                        ->getQuery()
-                        ->getResult();
-                };
-            }
+            $teintes = null === $couleur ? [] : $couleur->getTeintes();
 
             $form->add('teinte', EntityType::class, [
-                'class' => couleu::class,
-                'placeholder' => '',
+                'class' => Teintes::class,
+                'placeholder' => 'select nuance',
                 'choices' => $teintes,
+                'choice_label' => 'nomTeinte',
+                'choice_value' => 'nomTeinte',
             ]);
         };
 
@@ -67,7 +50,6 @@ class CouleurCompleteType extends AbstractType
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier) {
                 $data = $event->getData();
-
                 $formModifier($event->getForm(), $data->getCouleur());
             }
         );
@@ -85,17 +67,14 @@ class CouleurCompleteType extends AbstractType
             }
         );
 
-
-
-
-
+        $builder->add('save',            submitType::class);
 
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CouleurComplete::class,
+            'data_class' => Nuance::class,
         ]);
     }
 }

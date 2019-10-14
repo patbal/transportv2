@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\CouleurComplete;
-use App\Entity\Teinte;
-use App\Form\CouleurCompleteType;
+use App\Entity\Adresse;
+use App\Entity\Nuance;
+use App\Form\NuanceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,15 +17,18 @@ class TransportController extends AbstractController
     public function testForm(Request $request)
     {
 
-        $couleur = new couleurComplete();
-        $form = $this -> createForm(CouleurCompleteType::class, $couleur);
+        $nuance = new Nuance();
+        $form = $this -> createForm(NuanceType::class, $nuance);
         $form->handleRequest($request);
 		$em = $this -> getDoctrine() -> getManager();
 
 		if ($form->isSubmitted() && $form->isValid())
         {
-
-            return $this -> redirectToRoute('index');
+            $em = $this -> getDoctrine() -> getManager();
+            $em -> persist($nuance);
+            $em -> flush();
+            $this -> addFlash('notice', 'nuance recorded');
+            return $this -> redirectToRoute('form');
         }
 
 		return $this -> render('/transport/form.html.twig', array('form' => $form -> createView()));
@@ -44,17 +46,16 @@ class TransportController extends AbstractController
     }
 
     /**
-     * @Route("/data/{couleur}", name="teinteRequest")
+     * @Route("/adresses", name="adresses")
      */
-    public function teinteRequest($couleur){
-        $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository(Teinte::class)->findBy(['couleur'=>$couleur]);
-        foreach ($rep as $elm){
-            $vals[] = $elm->getTeinte();
-        }
+    public function viewAdresses(){
+        $listeAdresse = $this
+            -> getDoctrine()
+            -> getManager()
+            -> getRepository(Adresse::class)
+            -> findAll();
 
-
-        return new JsonResponse($vals);
+        return $this -> render('/transport/listeAdresses.html.twig', array('listeAdresses' => $listeAdresse));
     }
 
 }

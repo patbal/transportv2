@@ -7,7 +7,30 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="bg-light">
+        <header class="mt-auto py-3">
+            <div class="container">
+                <img class="d-block mx-auto" src="{{ asset('build/logo_gestrans.png') }}" alt="">
+            </div>
+        </header>
+        <div class="border-bottom container sticky-top nav-scroller py-1 mb-2 bg-light">
+            <nav class="nav d-flex justify-content-between">
+                <a class="p-2 text-muted" href="{{ path('form') }}">liste</a>
+                <a class="p-2 text-muted" href="#">ajout transport</a>
+                <a class="p-2 text-muted" href="#">ajout transporteur</a>
+                <a class="p-2 text-muted" href="#">ajout adresse</a>
+                <a class="p-2 text-muted" href="#">ajout contact</a>
+                <a class="p-2 text-muted" href="#">liste transporteur</a>
+                <a class="p-2 text-muted" href="#">liste contacts</a>
+            </nav>
+        </div>
+
+        {% for message in app.flashes('notice') %}
+            <div class="container text-center alert-info">
+                {{ message }}
+            </div>
+        {% endfor %}
+
         {% block body %}{% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

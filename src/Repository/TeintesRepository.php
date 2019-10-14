@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Teitne;
+use App\Entity\Teintes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Teitne|null find($id, $lockMode = null, $lockVersion = null)
- * @method Teitne|null findOneBy(array $criteria, array $orderBy = null)
- * @method Teitne[]    findAll()
- * @method Teitne[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Teintes|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Teintes|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Teintes[]    findAll()
+ * @method Teintes[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TeitneRepository extends ServiceEntityRepository
+class TeintesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Teitne::class);
+        parent::__construct($registry, Teintes::class);
     }
 
     // /**
-    //  * @return Teitne[] Returns an array of Teitne objects
+    //  * @return Teintes[] Returns an array of Teintes objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TeitneRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Teitne
+    public function findOneBySomeField($value): ?Teintes
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

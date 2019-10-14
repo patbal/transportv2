@@ -1,3 +1,8 @@
-body {
-    background-color: lightgray;
+@import '~bootstrap';
+@import '~font-awesome';
+
+
+.vertical {
+    writing-mode: vertical-rl;
+    text-orientation: sideways;
 }

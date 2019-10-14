@@ -1,25 +1,78 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}test form{% endblock %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="container text-center col-1 order-1 text-black-50 text-monospace">
+                <h1 class="vertical">Liste des transports</h1>
+            </div>
+            <div class="col-11">
+                <div id="formulaire">
+                    <div class="mt-4" style="width: 18rem;">
+                        {{ form_start(form) }}
+                        {{ form_row(form.nom) }}
+                        {{ form_row(form.couleur)}}
+                        <div id="teinte">
+                            {{ form_label(form.teinte, 'Variance') }}
+                            {{ form_widget(form.teinte)}}
+                        </div>
+                        <hr>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div id="formulaire">
-
-    {{ form_start(form) }}
-        {{ form_row(form.nomCouleurComplete) }}
-        {{ form_row(form.couleur)}}
-    <div id="teinte">
-        {{ form_row(form.teinte)}}
-    </div>
-    {{ form_end(form) }}
-
-</div>
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('ajax') }}
-    {{ encore_entry_script_tags('index') }}
+    {{ encore_entry_script_tags('app') }}
+    {#{{ encore_entry_script_tags('ajax') }}#}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    {#{{ encore_entry_script_tags('index') }}#}
+
+    <script>
+        var $couleur = $('#nuance_couleur');
+        $('#teinte').hide();
+        $('#nuance_save').hide();
+        console.log($couleur);
+        // When couleur gets selected ...
+        $couleur.on('change', function() {
+            console.log('changement couleur');
+            console.log('changement', $('#nuance_teinte'));
+
+            // ... retrieve the corresponding form.
+            var $form = $(this).closest('form');
+            // Simulate form data, but only include the selected sport value.
+            var data = {};
+            data[$couleur.attr('name')] = $couleur.val();
+            // Submit data via AJAX to the form's action path.
+            $.ajax({
+                url : $form.attr('action'),
+                type: $form.attr('method'),
+                data : data,
+                success: function(html) {
+                    // Replace current position field ...
+                    $('#nuance_teinte').replaceWith(
+                        // ... with the returned one from the AJAX response.
+                        $(html).find('#nuance_teinte')
+                    );
+                    // Position field now displays the appropriate positions.
+                }
+            });
+            $('#teinte').show();
+            $('#nuance_save').show();
+            console.log($('select'), $('#nuance_teinte'));
+            $('#nuance_teinte').on('change', function(){
+                console.log('change teinte');
+            })
+
+        });
+    </script>
 {% endblock %}
+
