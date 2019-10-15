@@ -41,6 +41,11 @@ class Contact
      */
     private $societe;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Adresse", inversedBy="listecontacts")
+     */
+    private $nomSociete;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +107,18 @@ class Contact
     public function setSociete(?Adresse $societe): self
     {
         $this->societe = $societe;
+
+        return $this;
+    }
+
+    public function getNomSociete(): ?Adresse
+    {
+        return $this->nomSociete;
+    }
+
+    public function setNomSociete(?Adresse $nomSociete): self
+    {
+        $this->nomSociete = $nomSociete;
 
         return $this;
     }

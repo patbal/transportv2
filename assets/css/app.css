@@ -3,6 +3,20 @@
 
 
 .vertical {
-    writing-mode: vertical-rl;
+    writing-mode: vertical-lr;
     text-orientation: sideways;
 }
+
+.text-matchy {
+    color: rgb(199,209,101);
+}
+
+.text-matchc {
+    color: rgb(112,189,218);
+}
+
+.text-matchm {
+    color: rgb(189,98,151);
+}
+
+

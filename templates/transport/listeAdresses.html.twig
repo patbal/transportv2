@@ -4,15 +4,36 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container pt-5">
     <div class="row">
-        <div class="container text-center col-1 order-1 text-black-50 text-monospace">
+        <div class="container text-center col-1 order-1 text-matchm text-monospace">
             <h1 class="vertical">liste des adresses</h1>
         </div>
+        <div class="col-11">
+            <table class="table table-borderless table-hover table-sm">
+                <tr class="text-matchy">
+                    <th>SOCIÉTÉ</th>
+                    <th>ADRESSE</th>
+                    <th>CP</th>
+                    <th>VILLE</th>
+                    <th>PAYS</th>
+                </tr>
+                {% for adresse in listeAdresses %}
+                <tr class="font-weight-light" id="{{ adresse.id }}">
+                    <td class="text-truncate" style="max-width: 200px"><a href="{{ path('editAdresse', {'id': adresse.id}) }}" class="text-matchc">{{ adresse.nom }}</a></td>
+                    <td class="text-truncate" style="max-width: 300px">{{ adresse.adresse1 }}</td>
+                    <td>{{ adresse.codepostal }}</td>
+                    <td class="text-truncate" style="max-width: 200px">{{ adresse.ville }}</td>
+                    <td>{{ adresse.pays }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
     </div>
 
 {% endblock %}
 {##}
 {% block javascripts %}
     {{ parent() }}
+
 {% endblock %}

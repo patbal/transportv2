@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition adresse{% endblock %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="container text-center col-1 order-2 text-matchm text-monospace">
+            <h1 class="vertical">édition adresse</h1>
+        </div>
+        <div class="col-6 order-1">
+            <div id="contacts">
+                <h2 class="text-matchy">Contacts associés</h2>
+                <ul>
+                {% for contact in adresse.contacts %}
+                    <li>{{ contact.prenom }} {{ contact.nom|upper }}, {{ contact.telephone }}, <a class="text-matchc" href="mailto:{{ contact.mail }}">{{ contact.mail }}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div id="formulaire">
+                <div class="" style="width: 18rem;">
+                    {{ form_start(form) }}
+                    {{ form_row(form.nom, {'label': 'Société'}) }}
+                    {{ form_row(form.adresse1, {'label': 'Adresse'})}}
+                    {{ form_row(form.adresse2, {'label': 'Complément d\'adresse'})}}
+                    {{ form_row(form.codepostal, {'label': 'Code postal'})}}
+                    {{ form_row(form.ville) }}
+                    {{ form_row(form.pays) }}
+                    {{ form_row(form.sauvegarder, {'attr': {'class': 'btn btn-block btn-info'}}) }}<span id="annuler" class="btn btn-block btn-warning">Annuler</span>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+        <div class="order-0 col-5">
+            <H3 class="text-matchc">{{ adresse.nom }}</H3>
+            <div>{{ adresse.adresse1 }}</div>
+            {% if adresse.adresse2 %}
+            <div>{{ adresse.adresse2 }}</div>
+            {% endif %}
+            <div>{{ adresse.codepostal }} {{ adresse.ville }}</div>
+            <div>{{ adresse.pays }}</div>
+            <br><hr><br>
+            <a href="{{ path('deleteAdresse', {'id': adresse.id}) }}" class="btn btn-sm btn-danger" onclick="return confirm('ATTENTION : êtes vous certain de vouloir supprimer cette adresse ? Cette action est irrévocable.');">
+                <i class="glyphicon glyphicon-trash"></i>
+                Supprimer l'adresse
+            </a>
+            <span class="btn btn-sm btn-info" id="edit">Modifier l'adresse</span>
+        </div>
+
+{% endblock %}
+{##}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        var formulaire = document.getElementById('formulaire');
+        var contacts = document.getElementById('contacts');
+        formulaire.style.display = "none";
+        contacts.style.display = "block";
+        var bouton = document.getElementById('edit');
+        bouton.addEventListener("click", function(){
+            formulaire.style.display = "block";
+            contacts.style.display = "none";
+        });
+        document.getElementById('annuler').addEventListener('click', function(){
+            formulaire.style.display = "none";
+            contacts.style.display = "block";
+        })
+    </script>
+
+{% endblock %}

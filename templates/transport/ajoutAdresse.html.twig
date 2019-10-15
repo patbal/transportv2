@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition adresse{% endblock %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="container text-center col-1 order-2 text-matchm text-monospace">
+            <h1 class="vertical">ajout adresse</h1>
+        </div>
+        <div class="col-11 order-1">
+            <div id="formulaire">
+                <div class="" style="width: 18rem;">
+                    {{ form_start(form) }}
+                    {{ form_row(form.nom, {'label': 'Société'}) }}
+                    {{ form_row(form.adresse1, {'label': 'Adresse'})}}
+                    {{ form_row(form.adresse2, {'label': 'Complément d\'adresse'})}}
+                    {{ form_row(form.codepostal, {'label': 'Code postal'})}}
+                    {{ form_row(form.ville) }}
+                    {{ form_row(form.pays) }}
+                    {{ form_row(form.sauvegarder, {'attr': {'class': 'btn btn-block btn-info'}}) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+{##}
+{% block javascripts %}
+    {{ parent() }}
+
+
+{% endblock %}

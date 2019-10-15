@@ -53,9 +53,15 @@ class Adresse
      */
     private $adresse1;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="nomSociete")
+     */
+    private $listecontacts;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
+        $this->listecontacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +168,37 @@ class Adresse
     public function setAdresse1(string $adresse1): self
     {
         $this->adresse1 = $adresse1;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contact[]
+     */
+    public function getListecontacts(): Collection
+    {
+        return $this->listecontacts;
+    }
+
+    public function addListecontact(Contact $listecontact): self
+    {
+        if (!$this->listecontacts->contains($listecontact)) {
+            $this->listecontacts[] = $listecontact;
+            $listecontact->setNomSociete($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListecontact(Contact $listecontact): self
+    {
+        if ($this->listecontacts->contains($listecontact)) {
+            $this->listecontacts->removeElement($listecontact);
+            // set the owning side to null (unless already changed)
+            if ($listecontact->getNomSociete() === $this) {
+                $listecontact->setNomSociete(null);
+            }
+        }
 
         return $this;
     }

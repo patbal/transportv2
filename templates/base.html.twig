@@ -7,28 +7,33 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
+
     <body class="bg-light">
         <header class="mt-auto py-3">
             <div class="container">
-                <img class="d-block mx-auto" src="{{ asset('build/logo_gestrans.png') }}" alt="">
+                <img class="d-block mx-auto" src="{{ asset('build/logo_gestrans.png') }}" alt="logo application">
             </div>
         </header>
-        <div class="border-bottom container sticky-top nav-scroller py-1 mb-2 bg-light">
+        <div class="border-bottom border-top container sticky-top nav-scroller py-1 mb-2 bg-light">
             <nav class="nav d-flex justify-content-between">
-                <a class="p-2 text-muted" href="{{ path('form') }}">liste</a>
+                <a class="p-2 text-muted text-matchm" href="{{ path('form') }}">liste</a>
                 <a class="p-2 text-muted" href="#">ajout transport</a>
                 <a class="p-2 text-muted" href="#">ajout transporteur</a>
-                <a class="p-2 text-muted" href="#">ajout adresse</a>
+                <a class="p-2 text-muted" href="{{ path('ajoutAdresse')}}">ajout adresse</a>
                 <a class="p-2 text-muted" href="#">ajout contact</a>
-                <a class="p-2 text-muted" href="#">liste transporteur</a>
+                <a class="p-2 text-muted" href="#">liste transporteurs</a>
+                <a class="p-2 text-muted" href="{{ path('adresses') }}">liste adresses</a>
                 <a class="p-2 text-muted" href="#">liste contacts</a>
             </nav>
         </div>
 
-        {% for message in app.flashes('notice') %}
-            <div class="container text-center alert-info">
-                {{ message }}
-            </div>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="container text-center alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endfor %}
 
         {% block body %}{% endblock %}
