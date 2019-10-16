@@ -2,10 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Gestrans 2{% endblock %}</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
+        <script src="https://kit.fontawesome.com/1c35003cc2.js" crossorigin="anonymous"></script>
     </head>
 
     <body class="bg-light">
@@ -23,7 +24,7 @@
                 <a class="p-2 text-muted" href="#">ajout contact</a>
                 <a class="p-2 text-muted" href="#">liste transporteurs</a>
                 <a class="p-2 text-muted" href="{{ path('adresses') }}">liste adresses</a>
-                <a class="p-2 text-muted" href="#">liste contacts</a>
+                <a class="p-2 text-muted" href="{{ path('contacts')}}">liste contacts</a>
             </nav>
         </div>
 

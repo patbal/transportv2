@@ -6,49 +6,39 @@
 
 {% block body %}
 
-<div class="container pt-5">
-    <div id="titre-horizontal" class="pb-4 text-matchm text-monospace">
-            <h1 class="">édition adresse</h1>
-    </div>
+    <div class="container pt-5">
+        <div id="titre-horizontal" class="pb-4 text-matchm text-monospace">
+            <h2 class="">édition adresse</h2>
+        </div>
     <div class="row">
-        <div id="titre-vertical" class="container text-center col-1 order-2 text-matchm text-monospace">
+        <div id="titre-vertical" class="container text-center col-sm-1 order-2 text-matchm text-monospace">
             <h1 class="vertical">édition adresse</h1>
         </div>
         <div class="col-md-5 col-sm-11 order-1">
             <div id="contacts">
-                <h2 class="text-matchy">Contacts associés</h2>
-                <ul>
-                {% for contact in adresse.contacts %}
-                    <li>{{ contact.prenom }} {{ contact.nom|upper }}, {{ contact.telephone }}, <a class="text-matchc" href="mailto:{{ contact.mail }}">{{ contact.mail }}</a></li>
-                {% endfor %}
-                </ul>
+                <h2 class="text-matchy">Rattaché à la société :</h2>
+                {% if contact.societe is not null %}<ul>{{ contact.societe.nom }}</ul>{% else %}<span class="text-black-50">Pas de société définie</span>{% endif %}
             </div>
             <div id="formulaire">
                 <div class="" style="width: 18rem;">
                     {{ form_start(form) }}
-                    {{ form_row(form.nom, {'label': 'Société'}) }}
-                    {{ form_row(form.adresse1, {'label': 'Adresse'})}}
-                    {{ form_row(form.adresse2, {'label': 'Complément d\'adresse'})}}
-                    {{ form_row(form.codepostal, {'label': 'Code postal'})}}
-                    {{ form_row(form.ville) }}
-                    {{ form_row(form.pays) }}
+                    {{ form_row(form.nom, {'label': 'Nom'}) }}
+                    {{ form_row(form.prenom, {'label': 'Prénom'})}}
+                    {{ form_row(form.telephone, {'label': 'Numéro de téléphone'})}}
+                    {{ form_row(form.mail, {'label': 'e-mail'})}}
                     {{ form_row(form.sauvegarder, {'attr': {'class': 'btn btn-block btn-info'}}) }}<span id="annuler" class="btn btn-block btn-warning">Annuler</span>
                     {{ form_end(form) }}
                 </div>
             </div>
         </div>
         <div class="order-0 col-md-6 col-sm-11 pb-4">
-            <H3 class="text-matchc">{{ adresse.nom }}</H3>
-            <div>{{ adresse.adresse1 }}</div>
-            {% if adresse.adresse2 %}
-            <div>{{ adresse.adresse2 }}</div>
-            {% endif %}
-            <div>{{ adresse.codepostal }} {{ adresse.ville }}</div>
-            <div>{{ adresse.pays }}</div>
+            <H3 class="text-matchc">{{ contact.prenom }} {{ contact.nom }}</H3>
+            <div>{{ contact.telephone }}</div>
+            <div>{{ contact.mail }}</div>
             <br><hr><br>
-            <a href="{{ path('deleteAdresse', {'id': adresse.id}) }}" class="btn btn-sm btn-danger" onclick="return confirm('ATTENTION : êtes vous certain de vouloir supprimer cette adresse ? Cette action est irrévocable.');">
+            <a href="{{ path('deleteContact', {'id': contact.id}) }}" class="btn btn-sm btn-danger" onclick="return confirm('ATTENTION : êtes vous certain de vouloir supprimer cette personne ? Cette action est irrévocable.');">
                 <i class="far fa-trash-alt"></i>
-                Supprimer l'adresse
+                Supprimer le contact
             </a>
             <span class="btn btn-sm btn-info" id="modif"></span>
             <span class="btn btn-sm btn-info" id="edit"></span>
@@ -57,15 +47,14 @@
 {% endblock %}
 {##}
 {% block javascripts %}
-    {{ parent() }}
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <script>
 
-
         $(document).ready(function(){
             $("#formulaire").hide();
-            var mod = "<i class=\"far fa-edit\"></i> Modifier l'adresse";
+            var mod = "<i class=\"far fa-edit\"></i> Modifier le contact";
             var ed = "<i class=\"far fa-edit\"></i> Annuler modification";
             $("#modif").html(mod).show().click(function(){
                     $('#formulaire').toggle(200);
@@ -79,12 +68,18 @@
                     $('#modif').toggle();
                     $('#edit').toggle();
                });
-
             $("#annuler").click(function(){
                     $('#formulaire').toggle(200);
                     $('#contacts').toggle(200);
+
                });
         });
+
+
+
+
     </script>
+
+    {{ parent() }}
 
 {% endblock %}

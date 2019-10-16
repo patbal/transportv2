@@ -1,6 +1,15 @@
 @import '~bootstrap';
 @import '~font-awesome';
 
+@media screen and (min-width: 0px) and (max-width: 500px) {
+    #titre-horizontal { display: block; }
+    #titre-vertical { display: none; }
+}
+
+@media screen and (min-width: 501px) and (max-width: 2048px) {
+    #titre-horizontal { display: none; }
+    #titre-vertical { display: block; }
+}
 
 .vertical {
     writing-mode: vertical-lr;

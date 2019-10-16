@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des adresses{% endblock %}
+
+{% block body %}
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="container text-center col-1 order-1 text-matchm text-monospace">
+            <h1 class="vertical">liste des contacts</h1>
+        </div>
+        <div class="col-11">
+            <table class="table table-borderless table-hover table-sm">
+                {% for contact in listeContacts %}
+                <tr class="font-weight-light" id="{{ contact.id }}">
+                    <td class="text-truncate" "><a href="{{ path('editContact', {'id': contact.id}) }}" class="text-matchc">{{ contact.nom|upper }}</a></td>
+                    <td class="text-truncate">{{ contact.prenom|capitalize }}</td>
+                    <td>{{ contact.telephone }}</td>
+                    <td class="text-truncate">{{ contact.mail }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+    </div>
+
+{% endblock %}
+{##}
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}

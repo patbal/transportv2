@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 use App\Entity\Adresse;
+use App\Entity\Contact;
 use App\Entity\Nuance;
 use App\Form\AdresseType;
+use App\Form\ContactType;
 use App\Form\NuanceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -115,6 +117,56 @@ class TransportController extends AbstractController
         $em -> flush();
 
         return $this -> redirectToRoute('adresses');
+    }
+
+    /**
+     * @Route("/contacts", name="contacts")
+     */
+    public function viewContacts(){
+        $listeContact = $this
+            -> getDoctrine()
+            -> getManager()
+            -> getRepository(Contact::class)
+            -> findBy(array(), array('nom'=>'ASC'));
+
+        return $this -> render('transport/listeContacts.html.twig', array('listeContacts' => $listeContact));
+    }
+
+    /**
+     * @Route("/contact/{id}", name="editContact")
+     */
+    public function editContact(Contact $contact, Request $request){
+        $form = $this -> createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this -> getDoctrine() -> getManager();
+            $em -> persist($contact);
+            $em -> flush();
+            $this -> addFlash('info', 'la fiche de "'.$contact->getPrenom().' '.$contact->getNom().'" a été mise à jour');
+            return $this -> redirectToRoute('editContact', ['id'=> $contact->getId()]);
+        }
+
+        return $this -> render('/transport/editContact.html.twig', ['form' => $form -> createView(), 'contact'=>$contact]);
+
+    }
+
+    /**
+     * @Route("/delete/contact/{id}", name="deleteContact")
+     */
+    public function deleteContact(Contact $contact, Request $request){
+        if (null === $contact)
+        {
+            throw new NotFoundHttpException("Cette personne n'existe pas (dans notre base, hein).");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em -> remove($contact);
+        $this -> addFlash('info', 'la fiche de "'.$contact->getPrenom().' '.$contact->getNom().'" a été supprimée');
+        $em -> flush();
+
+        return $this -> redirectToRoute('contacts');
     }
 
 }
