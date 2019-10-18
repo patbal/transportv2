@@ -19,7 +19,7 @@
                 <h2 class="text-matchy">Contacts associés</h2>
                 <ul>
                 {% for contact in adresse.contacts %}
-                    <li>{{ contact.prenom }} {{ contact.nom|upper }}, {{ contact.telephone }}, <a class="text-matchc" href="mailto:{{ contact.mail }}">{{ contact.mail }}</a></li>
+                    <li><a class="fas fa-user-edit text-matchy" href="{{ path('editContact', {'id': contact.id}) }}"></a> {{ contact.prenom }} {{ contact.nom|upper }}, {{ contact.telephone }}, <a class="text-matchc" href="mailto:{{ contact.mail }}">{{ contact.mail }}</a></li>
                 {% endfor %}
                 </ul>
             </div>

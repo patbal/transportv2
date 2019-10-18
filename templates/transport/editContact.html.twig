@@ -17,7 +17,7 @@
         <div class="col-md-5 col-sm-11 order-1">
             <div id="contacts">
                 <h2 class="text-matchy">Rattaché à la société :</h2>
-                {% if contact.societe is not null %}<ul>{{ contact.societe.nom }}</ul>{% else %}<span class="text-black-50">Pas de société définie</span>{% endif %}
+                {% if contact.societe is not null %}<div><a class="far fa-edit text-matchy" href="{{ path('editAdresse', {'id': contact.societe.id}) }}"></a> {{ contact.societe.nom }}</div>{% else %}<div class="text-black-50">Pas de société définie</div>{% endif %}
             </div>
             <div id="formulaire">
                 <div class="" style="width: 18rem;">
@@ -26,6 +26,7 @@
                     {{ form_row(form.prenom, {'label': 'Prénom'})}}
                     {{ form_row(form.telephone, {'label': 'Numéro de téléphone'})}}
                     {{ form_row(form.mail, {'label': 'e-mail'})}}
+                    {{ form_row(form.societe, {'label': 'Site / Salle /Société'}) }}
                     {{ form_row(form.sauvegarder, {'attr': {'class': 'btn btn-block btn-info'}}) }}<span id="annuler" class="btn btn-block btn-warning">Annuler</span>
                     {{ form_end(form) }}
                 </div>
@@ -54,8 +55,8 @@
 
         $(document).ready(function(){
             $("#formulaire").hide();
-            var mod = "<i class=\"far fa-edit\"></i> Modifier le contact";
-            var ed = "<i class=\"far fa-edit\"></i> Annuler modification";
+            var mod = "<i class=\"fas fa-user-edit\"></i> Modifier le contact";
+            var ed = "<i class=\"fas fa-undo-alt\"></i> Annuler modification";
             $("#modif").html(mod).show().click(function(){
                     $('#formulaire').toggle(200);
                     $('#contacts').toggle(200);
