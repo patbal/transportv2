@@ -169,5 +169,26 @@ class TransportController extends AbstractController
         return $this -> redirectToRoute('contacts');
     }
 
+    /**
+     * @Route("/ajout/contact", name="ajoutContact")
+     */
+    public function ajoutContact(Request $request){
+        $contact = new Contact();
+        $form = $this -> createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this -> getDoctrine() -> getManager();
+            $em -> persist($contact);
+            $em -> flush();
+            $this -> addFlash('info', 'le contact "'.$contact->getPrenom().' '.$contact->getNom().'" a été crée');
+            return $this -> redirectToRoute('contacts');
+        }
+
+        return $this -> render('transport/ajoutContact.html.twig', ['form' => $form -> createView(), 'contact'=>$contact]);
+
+    }
+
 }
 
