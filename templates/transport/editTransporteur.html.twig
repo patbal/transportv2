@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition adresse{% endblock %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    <div class="container pt-5">
+        <div id="titre-horizontal" class="pb-4 text-matchm text-monospace">
+            <h2 class="">édition transporteur</h2>
+        </div>
+    <div class="row">
+        <div id="titre-vertical" class="container text-center col-sm-1 order-2 text-matchm text-monospace">
+            <h1 class="vertical">édition transporteur</h1>
+        </div>
+        <div class="col-md-5 col-sm-11 order-1">
+            <div id="contacts">
+                <h2 class="text-matchy">Détails transporteur</h2>
+            </div>
+            <div id="formulaire">
+                <div class="" style="width: 18rem;">
+                    {{ form_start(form) }}
+                    {{ form_row(form.nom, {'label': 'Nom du transporteur'}) }}
+                    {{ form_row(form.adresse1, {'label': 'Adresse'})}}
+                    {{ form_row(form.adresse2, {'label': 'Complément d\'adresse'})}}
+                    {{ form_row(form.codepostal, {'label': 'Code postal'})}}
+                    {{ form_row(form.ville) }}
+                    {{ form_row(form.telephone, {'label': 'Numéro de téléphone'}) }}
+                    {{ form_row(form.email, {'label': 'e-mail (obligatoire)'}) }}
+                    {{ form_row(form.sauvegarder, {'attr': {'class': 'btn btn-block btn-info'}}) }}<span id="annuler" class="btn btn-block btn-warning">Annuler</span>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+        <div class="order-0 col-md-6 col-sm-11 pb-4">
+            <H3 class="text-matchc">{{ transporteur.nom }}</H3>
+            <div>{{ transporteur.adresse1 }}</div>
+            {% if transporteur.adresse2 %}
+            <div>{{ transporteur.adresse2 }}</div>
+            {% endif %}
+            <div>{{ transporteur.codePostal }}</div>
+            <div>{{ transporteur.ville }}</div>
+            <div>{{ transporteur.telephone }}</div>
+            <div>{{ transporteur.email }}</div>
+            <br><hr><br>
+            <a href="{{ path('deleteTransporteur', {'id': transporteur.id}) }}" class="btn btn-sm btn-danger" onclick="return confirm('ATTENTION : êtes vous certain de vouloir supprimer ce transporteur ? Cette action est irrévocable.');">
+                <i class="far fa-trash-alt"></i>
+                Supprimer le transporteur
+            </a>
+            <span class="btn btn-sm btn-info" id="modif"></span>
+            <span class="btn btn-sm btn-info" id="edit"></span>
+        </div>
+
+{% endblock %}
+{##}
+{% block javascripts %}
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+        $(document).ready(function(){
+            $("#formulaire").hide();
+            var mod = "<i class=\"fas fa-user-edit\"></i> Modifier le transporteur";
+            var ed = "<i class=\"fas fa-undo-alt\"></i> Annuler modification";
+            $("#modif").html(mod).show().click(function(){
+                    $('#formulaire').toggle(200);
+                    $('#contacts').toggle(200);
+                    $('#modif').toggle();
+                    $('#edit').toggle();
+                });
+            $("#edit").html(ed).hide().click(function(){
+                    $('#formulaire').toggle(200);
+                    $('#contacts').toggle(200);
+                    $('#modif').toggle();
+                    $('#edit').toggle();
+               });
+            $("#annuler").click(function(){
+                    $('#formulaire').toggle(200);
+                    $('#contacts').toggle(200);
+
+               });
+        });
+
+
+
+
+    </script>
+
+    {{ parent() }}
+
+{% endblock %}

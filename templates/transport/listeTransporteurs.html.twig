@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des transporteurs{% endblock %}
+
+{% block body %}
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="container text-center col-1 order-1 text-matchm text-monospace">
+            <h1 class="vertical">liste des transporteurs</h1>
+        </div>
+        <div class="col-11">
+            <table class="table table-borderless table-hover table-sm">
+                <tr class="text-matchy">
+                    <th>SOCIÉTÉ</th>
+                    <th>ADRESSE</th>
+                    <th>CP</th>
+                    <th>VILLE</th>
+                    <th>MAIL</th>
+                </tr>
+                {% for transporteur in listeTransporteurs %}
+                <tr class="font-weight-light" id="{{ transporteur.id }}">
+                    <td class="text-truncate" style="max-width: 200px"><a href="{{ path('editTransporteur', {'id': transporteur.id}) }}" class="text-matchc">{{ transporteur.nom }}</a></td>
+                    <td class="text-truncate" style="max-width: 300px">{{ transporteur.adresse1 }}</td>
+                    <td>{{ transporteur.codepostal }}</td>
+                    <td class="text-truncate" style="max-width: 200px">{{ transporteur.ville }}</td>
+                    <td>{{ transporteur.email }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+    </div>
+
+{% endblock %}
+{##}
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}

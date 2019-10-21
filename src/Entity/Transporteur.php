@@ -34,7 +34,7 @@ class Transporteur
     /**
      * @ORM\Column(type="string", length=5, nullable=true)
      */
-    private $codePostal;
+    private $codepostal;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -42,7 +42,7 @@ class Transporteur
     private $ville;
 
     /**
-     * @ORM\Column(type="string", length=12, nullable=true)
+     * @ORM\Column(type="string", length=22, nullable=true)
      */
     private $telephone;
 
@@ -92,14 +92,14 @@ class Transporteur
         return $this;
     }
 
-    public function getCodePostal(): ?string
+    public function getCodepostal(): ?string
     {
-        return $this->codePostal;
+        return $this->codepostal;
     }
 
-    public function setCodePostal(?string $codePostal): self
+    public function setCodepostal(?string $codepostal): self
     {
-        $this->codePostal = $codePostal;
+        $this->codepostal = $codepostal;
 
         return $this;
     }

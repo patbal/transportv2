@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Transporteur;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,10 +16,12 @@ class TransporteurType extends AbstractType
             ->add('nom')
             ->add('adresse1')
             ->add('adresse2')
-            ->add('codePostal')
+            ->add('codepostal')
             ->add('ville')
             ->add('telephone')
             ->add('email')
+            ->add('sauvegarder',submitType::class)
+
         ;
     }
 

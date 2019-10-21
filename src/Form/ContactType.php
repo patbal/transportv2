@@ -31,6 +31,7 @@ class ContactType extends AbstractType
                 'placeholder' => '---',
                 'multiple' => false,
                 'expanded' => false,
+                'required' => false,
                 'label' => 'société / site'
             ))
             ->add('sauvegarder',submitType::class)

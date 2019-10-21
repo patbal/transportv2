@@ -4,9 +4,11 @@ namespace App\Controller;
 use App\Entity\Adresse;
 use App\Entity\Contact;
 use App\Entity\Nuance;
+use App\Entity\Transporteur;
 use App\Form\AdresseType;
 use App\Form\ContactType;
 use App\Form\NuanceType;
+use App\Form\TransporteurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -188,6 +190,77 @@ class TransportController extends AbstractController
 
         return $this -> render('transport/ajoutContact.html.twig', ['form' => $form -> createView(), 'contact'=>$contact]);
 
+    }
+
+    /**
+     * @Route("/ajout/transporteur", name="ajoutTransporteur")
+     */
+    public function ajoutTransporteur(Request $request){
+        $transporteur = new Transporteur();
+        $form = $this -> createForm(ContactType::class, $transporteur);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this -> getDoctrine() -> getManager();
+            $em -> persist($transporteur);
+            $em -> flush();
+            $this -> addFlash('info', 'le contact "'.$transporteur->getNom().'" a été crée');
+            return $this -> redirectToRoute('transporteurs');
+        }
+
+        return $this -> render('transport/ajoutTransporteur.html.twig', ['form' => $form -> createView(), 'transporteur'=>$transporteur]);
+
+    }
+
+    /**
+     * @Route("/transporteur/{id}", name="editTransporteur")
+     */
+    public function editTransporteur(Transporteur $transporteur, Request $request){
+        $form = $this -> createForm(TransporteurType::class, $transporteur);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this -> getDoctrine() -> getManager();
+            $em -> persist($transporteur);
+            $em -> flush();
+            $this -> addFlash('info', 'la fiche "'.$transporteur->getNom().'" a été mise à jour');
+            return $this -> redirectToRoute('editTransporteur', ['id'=> $transporteur->getId()]);
+        }
+
+        return $this -> render('transport/editTransporteur.html.twig', ['form' => $form -> createView(), 'transporteur'=>$transporteur]);
+
+    }
+
+    /**
+     * @Route("/transporteurs", name="transporteurs")
+     */
+    public function viewTransporteurs(){
+        $listeTransporteur = $this
+            -> getDoctrine()
+            -> getManager()
+            -> getRepository(Transporteur::class)
+            -> findBy(array(), array('nom'=>'ASC'));
+
+        return $this -> render('transport/listeTransporteurs.html.twig', array('listeTransporteurs' => $listeTransporteur));
+    }
+
+    /**
+     * @Route("/delete/transporteur/{id}", name="deleteTransporteur")
+     */
+    public function deleteTransporteur(Transporteur $transporteur, Request $request){
+        if (null === $transporteur)
+        {
+            throw new NotFoundHttpException("Cet transporteur n'existe pas (dans notre base, hein).");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em -> remove($transporteur);
+        $this -> addFlash('info', 'la fiche  "'.$transporteur->getNom().'" a été supprimée');
+        $em -> flush();
+
+        return $this -> redirectToRoute('transporteurs');
     }
 
 }
