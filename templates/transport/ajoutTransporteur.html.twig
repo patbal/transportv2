@@ -8,7 +8,7 @@
 
 <div class="container pt-5">
     <div id="titre-horizontal" class="pb-4 text-matchm text-monospace">
-        <h1 class="">ajout transporteur</h1>
+        <h1 class="">ajout fournisseur</h1>
     </div>
     <div class="row">
         <div id="titre-vertical" class="container text-center col-1 order-2 text-matchm text-monospace">
@@ -19,6 +19,9 @@
                 <div class="" style="width: 18rem;">
                     {{ form_start(form) }}
                     {{ form_row(form.nom, {'label': 'Nom du transporteur'}) }}
+                    {{ form_row(form.loueur, {'label': 'Loueur ? '}) }}
+                    {{ form_row(form.coursier, {'label': 'Transporteur / Affretteur ? '}) }}
+                    {{ form_row(form.transporteur, {'label': 'Coursier ?'}) }}
                     {{ form_row(form.adresse1, {'label': 'Adresse'})}}
                     {{ form_row(form.adresse2, {'label': 'Complément d\'adresse'})}}
                     {{ form_row(form.codepostal, {'label': 'Code postal'})}}

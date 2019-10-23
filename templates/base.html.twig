@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Gestrans 2{% endblock %}</title>
@@ -17,14 +17,46 @@
         </header>
         <div class="border-bottom border-top container sticky-top nav-scroller py-1 mb-2 bg-light">
             <nav class="nav d-flex justify-content-between">
-                <a class="p-2 text-muted text-matchm" href="{{ path('form') }}">liste</a>
-                <a class="p-2 text-muted" href="#">ajout transport</a>
-                <a class="p-2 text-muted" href="{{ path('ajoutAdresse')}}">ajout transporteur</a>
-                <a class="p-2 text-muted" href="{{ path('ajoutTransporteur')}}">ajout adresse</a>
-                <a class="p-2 text-muted" href="{{ path('ajoutContact')}}">ajout contact</a>
-                <a class="p-2 text-muted" href="{{ path('transporteurs')}}">liste transporteurs</a>
-                <a class="p-2 text-muted" href="{{ path('adresses') }}">liste adresses</a>
-                <a class="p-2 text-muted" href="{{ path('contacts')}}">liste contacts</a>
+                <span class="nav-item">
+                    <a class="p-2 text-muted text-matchm" href="{{ path('form') }}">liste transports</a>
+                </span>
+                <span class="nav-item">
+                    <a class="p-2 text-muted text-matchm" href="{{ path('form') }}">liste locations</a>
+                </span>
+                <span class="nav-item">
+                    <a class="p-2 text-muted" href="#">ajout transport</a>
+                </span>
+                <span class="nav-item">
+                    <a class="p-2 text-muted" href="#">ajout location</a>
+                </span>
+                <span class="nav-item">
+                    <a class="p-2 text-muted dropdown-toggle"
+                       data-toggle="dropdown"
+                       id="Preview1"
+                       href="#"
+                       role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false"><i class="fas fa-key"></i> admin - add</a>
+                    <span class="dropdown-menu" aria-labelledby="Preview1">
+                        <a class="dropdown-item p-2 text-muted" href="{{ path('ajoutTransporteur')}}">ajout fournisseur</a>
+                        <a class="dropdown-item p-2 text-muted" href="{{ path('ajoutContact')}}">ajout contact</a>
+                        <a class="dropdown-item p-2 text-muted" href="{{ path('ajoutAdresse')}}">ajout adresse</a>
+                    </span>
+                </span>
+                <span class="nav-item">
+                    <a class="p-2 text-muted dropdown-toggle"
+                       data-toggle="dropdown"
+                       id="Preview2"
+                       href="#"
+                       role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false"><i class="fas fa-key"></i> admin - view / edit</a>
+                    <span class="dropdown-menu" aria-labelledby="Preview2">
+                        <a class="dropdown-item p-2 text-muted" href="{{ path('transporteurs')}}">liste fournisseurs</a>
+                        <a class="p-2 text-muted dropdown-item" href="{{ path('adresses') }}">liste adresses</a>
+                        <a class="dropdown-item p-2 text-muted" href="{{ path('contacts')}}">liste contacts</a>
+                    </span>
+                </span>
             </nav>
         </div>
 

@@ -197,7 +197,7 @@ class TransportController extends AbstractController
      */
     public function ajoutTransporteur(Request $request){
         $transporteur = new Transporteur();
-        $form = $this -> createForm(ContactType::class, $transporteur);
+        $form = $this -> createForm(TransporteurType::class, $transporteur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
@@ -205,7 +205,7 @@ class TransportController extends AbstractController
             $em = $this -> getDoctrine() -> getManager();
             $em -> persist($transporteur);
             $em -> flush();
-            $this -> addFlash('info', 'le contact "'.$transporteur->getNom().'" a été crée');
+            $this -> addFlash('info', 'le fournisseur "'.$transporteur->getNom().'" a été crée');
             return $this -> redirectToRoute('transporteurs');
         }
 
@@ -252,7 +252,7 @@ class TransportController extends AbstractController
     public function deleteTransporteur(Transporteur $transporteur, Request $request){
         if (null === $transporteur)
         {
-            throw new NotFoundHttpException("Cet transporteur n'existe pas (dans notre base, hein).");
+            throw new NotFoundHttpException("Ce fournisseur n'existe pas (dans notre base, hein).");
         }
 
         $em = $this->getDoctrine()->getManager();

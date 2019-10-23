@@ -51,6 +51,21 @@ class Transporteur
      */
     private $email;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $coursier;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $transporteur;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $loueur;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +151,42 @@ class Transporteur
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCoursier(): ?bool
+    {
+        return $this->coursier;
+    }
+
+    public function setCoursier(?bool $coursier): self
+    {
+        $this->coursier = $coursier;
+
+        return $this;
+    }
+
+    public function getTransporteur(): ?bool
+    {
+        return $this->transporteur;
+    }
+
+    public function setTransporteur(?bool $transporteur): self
+    {
+        $this->transporteur = $transporteur;
+
+        return $this;
+    }
+
+    public function getLoueur(): ?bool
+    {
+        return $this->loueur;
+    }
+
+    public function setLoueur(?bool $loueur): self
+    {
+        $this->loueur = $loueur;
 
         return $this;
     }
