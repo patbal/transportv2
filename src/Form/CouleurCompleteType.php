@@ -57,7 +57,7 @@ class CouleurCompleteType extends AbstractType
             }
 
             $form->add('teinte', EntityType::class, [
-                'class' => couleu::class,
+                'class' => couleur::class,
                 'placeholder' => '',
                 'choices' => $teintes,
             ]);

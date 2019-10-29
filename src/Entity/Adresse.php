@@ -58,10 +58,12 @@ class Adresse
      */
     private $listecontacts;
 
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
         $this->listecontacts = new ArrayCollection();
+        $this->transports = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,4 +204,5 @@ class Adresse
 
         return $this;
     }
+
 }

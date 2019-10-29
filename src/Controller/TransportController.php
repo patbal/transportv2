@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Adresse;
 use App\Entity\Contact;
 use App\Entity\Nuance;
+use App\Entity\Transport;
 use App\Entity\Transporteur;
 use App\Form\AdresseType;
 use App\Form\ContactType;
@@ -50,6 +51,10 @@ class TransportController extends AbstractController
         ]);
     }
 
+
+// *******************************************
+// ADRESSES
+// *******************************************
     /**
      * @Route("/adresses", name="adresses")
      */
@@ -121,6 +126,10 @@ class TransportController extends AbstractController
         return $this -> redirectToRoute('adresses');
     }
 
+
+// *******************************************
+// CONTACTS
+// *******************************************
     /**
      * @Route("/contacts", name="contacts")
      */
@@ -192,6 +201,10 @@ class TransportController extends AbstractController
 
     }
 
+
+// *******************************************
+// TRANSPORTEURS
+// *******************************************
     /**
      * @Route("/ajout/transporteur", name="ajoutTransporteur")
      */
@@ -261,6 +274,22 @@ class TransportController extends AbstractController
         $em -> flush();
 
         return $this -> redirectToRoute('transporteurs');
+    }
+
+    // *******************************************
+    // TRANSPORTS
+    // *******************************************
+    /**
+     * @Route("/transports", name="transports")
+     */
+    public function viewTransports(){
+        $listeTransports = $this
+            -> getDoctrine()
+            -> getManager()
+            -> getRepository(Transport::class)
+            -> findBy(array(), array('id'=>'DESC'));
+
+        return $this -> render('/transport/listeTransports.html.twig', array('listeTransports' => $listeTransports));
     }
 
 }
