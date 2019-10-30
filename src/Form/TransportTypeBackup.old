@@ -68,8 +68,9 @@ class TransportType extends AbstractType
             ->add('save', submitType::class)
         ;
 
-        $formModifier1 = function (FormInterface $form, Adresse $expediteur = null) {
+        $formModifier = function (FormInterface $form, Adresse $expediteur = null, Adresse $destinataire = null) {
             $contactsExp = null === $expediteur ? [] : $expediteur->getContacts();
+            $contactsDest = null === $destinataire ? [] : $destinataire->getContacts();
             $form->add('contactExpediteur', EntityType::class, [
                 'class' => Contact::class,
                 'placeholder' => '---',
@@ -78,10 +79,6 @@ class TransportType extends AbstractType
                 'choice_value' => 'nom',
                 'required' => false
             ]);
-        };
-
-        $formModifier2 = function (FormInterface $form, Adresse $destinataire = null) {
-            $contactsDest = null === $destinataire ? [] : $destinataire->getContacts();
             $form->add('contactDestinataire', EntityType::class, [
                 'class' => Contact::class,
                 'placeholder' => '---',
@@ -92,62 +89,59 @@ class TransportType extends AbstractType
             ]);
         };
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($formModifier1, $formModifier2) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($formModifier) {
 
-            $transport = $event->getData(); // On récupère notre objet sous-jacent
-            if ($transport->getTypeDemande() === null || !$transport)
-            {
-                return; // On sort de la fonction sans rien faire lorsque $advert vaut null
-            }
+                $transport = $event->getData(); // On récupère notre objet sous-jacent
+                if ($transport->getTypeDemande() === null || !$transport)
+                {
+                    return; // On sort de la fonction sans rien faire lorsque $advert vaut null
+                }
 
-            $type = $transport->getTypeDemande();
+                $type = $transport->getTypeDemande();
 
-            $formModifier1($event->getForm(), $transport->getExpediteur());
-            $formModifier2($event->getForm(), $transport->getDestinataire());
+                if($type == 'course')
+                {
+                    $event->getForm()->remove('nombrePalettes');
+                    $event->getForm()->remove('nombreMetresPlancher');
+                    $event->getForm()->remove('nombreColis');
+                }
 
-            if($type == 'course')
-            {
-                $event->getForm()->remove('nombrePalettes');
-                $event->getForm()->remove('nombreMetresPlancher');
-                $event->getForm()->remove('nombreColis');
-            }
+                if($type == 'transport')
+                {
+                    $event->getForm()->remove('pickupTime');
+                    $event->getForm()->remove('deliveryTime');
+                    $event->getForm()->remove('typeVehicule');
+                }
 
-            if($type == 'transport')
-            {
-                $event->getForm()->remove('pickupTime');
-                $event->getForm()->remove('deliveryTime');
-                $event->getForm()->remove('typeVehicule');
-            }
-
-            if($type == 'location')
-            {
-                $event->getForm()->remove('nombrePalettes');
-                $event->getForm()->remove('nombreMetresPlancher');
-                $event->getForm()->remove('nombreColis');
-                $event->getForm()->remove('expediteur');
-                $event->getForm()->remove('destinataire');
-                $event->getForm()->remove('contactExpediteur');
-                $event->getForm()->remove('contactDestinataire');
-            }
+                if($type == 'location')
+                {
+                    $event->getForm()->remove('nombrePalettes');
+                    $event->getForm()->remove('nombreMetresPlancher');
+                    $event->getForm()->remove('nombreColis');
+                    $event->getForm()->remove('expediteur');
+                    $event->getForm()->remove('destinataire');
+                    $event->getForm()->remove('contactExpediteur');
+                    $event->getForm()->remove('contactDestinataire');
+                }
 
                 //$data = $event->getData();
-
+                $formModifier($event->getForm(), $transport->getExpediteur(), $transport->getDestinataire());
             }
 
         );
 
         $builder->get('expediteur')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formModifier1) {
+            function (FormEvent $event) use ($formModifier) {
                 $expediteur = $event->getForm()->getData();
-                $formModifier1($event->getForm()->getParent(), $expediteur);
+                $formModifier($event->getForm()->getParent(), $expediteur);
             }
         );
         $builder->get('destinataire')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formModifier2) {
+            function (FormEvent $event) use ($formModifier) {
                 $destinataire = $event->getForm()->getData();
-                $formModifier2($event->getForm()->getParent(), $destinataire);
+                $formModifier($event->getForm()->getParent(),null , $destinataire);
             }
         );
     }

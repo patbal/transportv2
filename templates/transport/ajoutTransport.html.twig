@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout Transport{% endblock %}
+
+{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block body %}
+
+<div class="container pt-5">
+    <div id="titre-horizontal" class="pb-4 text-matchm text-monospace">
+        <h1 class="">ajout transport</h1>
+    </div>
+    <div class="row">
+        <div id="titre-vertical" class="container text-center col-1 order-2 text-matchm text-monospace">
+            <h1 class="vertical">ajout transport</h1>
+        </div>
+        <div class="col-11 order-0 text-matchc">
+            <div id="formulaire">
+                {#<div class="" style="width: 35rem;">#}
+                    {{ form_start(form) }}
+                        {% if transport.typeDemande == 'course' %}
+                            {{ form_row(form.numeroLocasyst, {'label': 'Numéro Locasyst'}) }}
+                            {{ form_row(form.expediteur, {'label': 'Enlèvement '}) }}
+                            {{ form_row(form.contactExpediteur, {'label': 'Contact enlèvement'}) }}
+                            {{ form_row(form.destinataire, {'label': 'Livraison'}) }}
+                            {{ form_row(form.contactDestinataire, {'label': 'Contact livraison'})}}
+                            {{ form_row(form.datePickup, {'label': 'Enlèvement le'})}}
+                            {{ form_row(form.pickupTime, {'label': 'À'})}}
+                            {{ form_row(form.dateDelivery, {'label': 'Livraison le'})}}
+                            {{ form_row(form.deliveryTime, {'label': 'À'})}}
+                            {{ form_row(form.typeVehicule) }}
+                            {{ form_row(form.remarque) }}
+                            {{ form_row(form.save, {'attr': {'class': 'btn btn-block btn-info'}}) }}
+                        {% endif %}
+                        {% if transport.typeDemande == 'transport' %}
+                            {{ form_row(form.numeroLocasyst, {'label': 'Numéro Locasyst'}) }}
+                            {{ form_row(form.expediteur, {'label': 'Enlèvement '}) }}
+                            {{ form_row(form.contactExpediteur, {'label': 'Contact enlèvement'}) }}
+                            {{ form_row(form.destinataire, {'label': 'Livraison'}) }}
+                            {{ form_row(form.contactDestinataire, {'label': 'Contact livraison'})}}
+                            {{ form_row(form.datePickup, {'label': 'Enlèvement le'})}}
+                            {{ form_row(form.dateDelivery, {'label': 'livraison le'})}}
+                            {{ form_row(form.nombreColis) }}
+                            {{ form_row(form.nombreMetresPlancher) }}
+                            {{ form_row(form.nombrePalettes) }}
+                            {{ form_row(form.remarque) }}
+                            {{ form_row(form.save, {'attr': {'class': 'btn btn-block btn-info'}}) }}
+                        {% endif %}
+                        {% if transport.typeDemande == 'location' %}
+                            {{ form_row(form.numeroLocasyst, {'label': 'numéro Locasyst'}) }}
+                            {{ form_row(form.datePickup, {'label': 'enlèvement le'})}}
+                            {{ form_row(form.pickupTime, {'label': 'à'})}}
+                            {{ form_row(form.dateDelivery, {'label': 'retour le'})}}
+                            {{ form_row(form.deliveryTime, {'label': 'à'})}}
+                            {{ form_row(form.typeVehicule) }}
+                            {{ form_row(form.remarque) }}
+                            {{ form_row(form.save, {'attr': {'class': 'btn btn-block btn-info'}}) }}
+                        {% endif %}
+                    {{ form_end(form) }}
+                </div>
+            {#</div>#}
+        </div>
+
+
+{% endblock %}
+{##}
+{% block javascripts %}
+    {{ parent() }}
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+        <script>
+        var $transportExpediteur = $('#transport_expediteur');
+        var $transportDestinataire = $('#transport_destinataire');
+
+        // When transport_expediteur gets selected ...
+        $transportExpediteur.on('change', function() {
+            // ... retrieve the corresponding form.
+            var $form = $(this).closest('form');
+            // Simulate form data, but only include the selected adress value.
+            var data = {};
+            data[$transportExpediteur.attr('name')] = $transportExpediteur.val();
+
+            // Submit data via AJAX to the form's action path.
+            $.ajax({
+                url : $form.attr('action'),
+                type: $form.attr('method'),
+                data : data,
+                success: function(html) {
+                    // Replace current position field ...
+                    $('#transport_contactExpediteur').replaceWith(
+                        // ... with the returned one from the AJAX response.
+                        $(html).find('#transport_contactExpediteur')
+                    );
+                    console.log('ajax OK');
+                }
+            });
+
+        });
+        $transportDestinataire.on('change', function() {
+            // ... retrieve the corresponding form.
+            var $form = $(this).closest('form');
+            // Simulate form data, but only include the selected adress value.
+            var data = {};
+            data[$transportDestinataire.attr('name')] = $transportDestinataire.val();
+
+            // Submit data via AJAX to the form's action path.
+            $.ajax({
+                url : $form.attr('action'),
+                type: $form.attr('method'),
+                data : data,
+                success: function(html) {
+                    // Replace current position field ...
+                    $('#transport_contactDestinataire').replaceWith(
+                        // ... with the returned one from the AJAX response.
+                        $(html).find('#transport_contactDestinataire')
+                    );
+                console.log('ajax 2 OK');
+}
+            });
+
+        });
+        </script>
+
+
+
+
+{% endblock %}

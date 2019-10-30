@@ -60,7 +60,7 @@ class Transport
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $facture;
+    private $factureRecue;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
@@ -117,12 +117,12 @@ class Transport
     private $transportCancelled = false;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="time", nullable=true)
      */
     private $pickupTime;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="time", nullable=true)
      */
     private $deliveryTime;
 
@@ -136,6 +136,18 @@ class Transport
      */
     private $remarque;
 
+
+    public function __construct()
+    {
+        $this->dateDemande = new \DateTime();
+        $this->datePickup = new \DateTime();
+        $this->dateDelivery = new \DateTime('NOW + 1 day');
+        $this->transportDone = false;
+        $this->transportCancelled = false;
+        $this->factureRecue = false;
+        $this->mailEnvoye=false;
+
+    }
 
     public function getId(): ?int
     {
@@ -238,14 +250,14 @@ class Transport
         return $this;
     }
 
-    public function getFacture(): ?bool
+    public function getFactureRecue(): ?bool
     {
-        return $this->facture;
+        return $this->factureRecue;
     }
 
-    public function setFacture(?bool $facture): self
+    public function setFactureRecue(?bool $factureRecue): self
     {
-        $this->facture = $facture;
+        $this->factureRecue = $factureRecue;
 
         return $this;
     }

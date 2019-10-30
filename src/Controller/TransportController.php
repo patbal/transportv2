@@ -10,6 +10,8 @@ use App\Form\AdresseType;
 use App\Form\ContactType;
 use App\Form\NuanceType;
 use App\Form\TransporteurType;
+use App\Form\TransportType;
+use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -290,6 +292,42 @@ class TransportController extends AbstractController
             -> findBy(array(), array('id'=>'DESC'));
 
         return $this -> render('/transport/listeTransports.html.twig', array('listeTransports' => $listeTransports));
+    }
+
+    /**
+     * @Route("/ajout/transport/{type}", name="ajoutTransport")
+     */
+    public function ajoutTransport(Request $request, String $type){
+        $transport = new Transport();
+
+        if ($type !== 'course' && $type !== 'location' && $type !== 'transport'){
+            throw new NotFoundHttpException("merci de ne pas modifier manuellement l'adresse");
+        }
+
+        $transport -> setTypeDemande($type);
+        if ($type=='course'){$prefixe = 'CRS';}
+        if ($type=='transport'){$prefixe = 'TR';}
+        if ($type=='location'){$prefixe = 'RNT';}
+
+        $now = new \DateTime();
+
+
+        $form = $this -> createForm(TransportType::class, $transport);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $numeroDemande = $prefixe.$now->format('Y').$now->format('m').'-'.$transport->getId();
+            $transport->setNumeroDemande($numeroDemande);
+            $em = $this -> getDoctrine() -> getManager();
+            $em -> persist($transport);
+            $em -> flush();
+            $this -> addFlash('info', 'le transport "'.$transport->getNumeroDemande().'" a été crée');
+            return $this -> redirectToRoute('transports');
+        }
+
+        return $this -> render('transport/ajoutTransport.html.twig', ['form' => $form -> createView(), 'transport'=>$transport]);
+
     }
 
 }
