@@ -7,13 +7,11 @@ use App\Entity\Contact;
 use App\Entity\Transport;
 use App\Entity\Vehicule;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
-
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -26,16 +24,22 @@ class TransportType extends AbstractType
     {
         $builder
             ->add('numeroLocasyst')
+            ->add('description')
             ->add('datePickup', DateType::class, array(
                 'widget' => 'single_text'
             ))
-            ->add('pickupTime', TimeType::class, array(
-                ))
+            ->add('pickupTime', TimeType::class, [
+                'input'  => 'datetime',
+                'widget' => 'choice',
+            ])
             ->add('dateDelivery', DateType::class, array(
                 'widget' => 'single_text'
             ))
-            ->add('deliveryTime', TimeType::class, array(
-            ))
+            ->add('deliveryTime', TimeType::class, [
+                'input'  => 'datetime',
+                'widget' => 'single_text',
+
+            ])
             ->add('typeVehicule',   EntityType::class, array(
                 'class'        => Vehicule::class,
                 'choice_label' => 'typevehicule',

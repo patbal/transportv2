@@ -13,18 +13,34 @@
             <table class="table table-borderless table-hover table-sm">
                 <tr class="text-matchy">
                     <th>NUMÉRO</th>
+                    <th>FOURNISSEUR</th>
                     <th>ENL.</th>
                     <th>LIV.</th>
                     <th>JOB</th>
                     <th>REM</th>
                 </tr>
                 {% for transport in listeTransports %}
-                <tr class="font-weight-light" id="{{ transport.id }}">
-                    <td><a href="{{ path('editAdresse', {'id': adresse.id}) }}" class="text-matchc">{{ transport.id }}</a></td>
-                    <td class="text-truncate" style="max-width: 400px">{{ transport.expediteur.nom }}</td>
-                    <td class="text-truncate" style="max-width: 400px">{{ transport.destinataire.nom }}</td>
+                <tr class="font-weight-light" id="{{ transport.typeDemande }}_{{ transport.id }}">
+                    <td><a href="{#{{ path('editAdresse', {'id': adresse.id}) }}#}" class="text-matchc">{{ transport.numeroDemande }}</a></td>
+                    <td>{% if transport.transporteur is not null %}{{ transport.transporteur.nom }}
+                        {% else %}<span class="text-muted">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-truncate" style="max-width: 400px">
+                        {% if transport.expediteur %}{{ transport.expediteur.nom }}
+                        {% else %}<span class="text-muted">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-truncate" style="max-width: 400px">
+                        {% if transport.destinataire %}{{ transport.destinataire.nom }}
+                        {% else %}<span class="text-muted">N/A</span>
+                        {% endif %}
+                    </td>
                     <td>{{ transport.numeroLocasyst }}</td>
-                    <td class="text-truncate" style="max-width: 200px">{{ trasnport.remarque }}</td>
+                    <td>{% if transport.remarque|default  %}  <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                        {% else %}  <i class="fa fa-circle-o" aria-hidden="true"></i>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

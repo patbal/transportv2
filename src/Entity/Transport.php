@@ -136,6 +136,16 @@ class Transport
      */
     private $remarque;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Transporteur", inversedBy="transports")
+     */
+    private $transporteur;
+
 
     public function __construct()
     {
@@ -394,12 +404,12 @@ class Transport
         return $this;
     }
 
-    public function getDeliveryTime(): ?bool
+    public function getDeliveryTime(): ?\DateTimeInterface
     {
         return $this->deliveryTime;
     }
 
-    public function setDeliveryTime(?bool $deliveryTime): self
+    public function setDeliveryTime(?\DateTimeInterface $deliveryTime): self
     {
         $this->deliveryTime = $deliveryTime;
 
@@ -426,6 +436,30 @@ class Transport
     public function setRemarque(?string $remarque): self
     {
         $this->remarque = $remarque;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getTransporteur(): ?Transporteur
+    {
+        return $this->transporteur;
+    }
+
+    public function setTransporteur(?Transporteur $transporteur): self
+    {
+        $this->transporteur = $transporteur;
 
         return $this;
     }

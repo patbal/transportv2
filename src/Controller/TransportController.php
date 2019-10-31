@@ -311,22 +311,26 @@ class TransportController extends AbstractController
 
         $now = new \DateTime();
 
+        $lastTransport = $this->getDoctrine()->getManager()-> getRepository(Transport::class)->findOneBy([], ['id' => 'desc']);
+        $lastId = $lastTransport->getId();
+        $newId = $lastId + 1;
 
         $form = $this -> createForm(TransportType::class, $transport);
         $form->handleRequest($request);
+        $numeroDemande = $prefixe.$now->format('Y').$now->format('m').'-'.$newId;
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $numeroDemande = $prefixe.$now->format('Y').$now->format('m').'-'.$transport->getId();
             $transport->setNumeroDemande($numeroDemande);
+
             $em = $this -> getDoctrine() -> getManager();
             $em -> persist($transport);
             $em -> flush();
-            $this -> addFlash('info', 'le transport "'.$transport->getNumeroDemande().'" a été crée');
+            $this -> addFlash('info', 'le transport "'.$transport->getNumeroDemande().'" a été créé');
             return $this -> redirectToRoute('transports');
         }
 
-        return $this -> render('transport/ajoutTransport.html.twig', ['form' => $form -> createView(), 'transport'=>$transport]);
+        return $this -> render('transport/ajoutTransport.html.twig', ['form' => $form -> createView(), 'transport'=>$transport, 'numeroDemande' => $numeroDemande, 'type' => $type]);
 
     }
 

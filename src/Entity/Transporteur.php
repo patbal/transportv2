@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -65,6 +67,16 @@ class Transporteur
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $loueur;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transport", mappedBy="transporteur")
+     */
+    private $transports;
+
+    public function __construct()
+    {
+        $this->transports = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -187,6 +199,37 @@ class Transporteur
     public function setLoueur(?bool $loueur): self
     {
         $this->loueur = $loueur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transport[]
+     */
+    public function getTransports(): Collection
+    {
+        return $this->transports;
+    }
+
+    public function addTransport(Transport $transport): self
+    {
+        if (!$this->transports->contains($transport)) {
+            $this->transports[] = $transport;
+            $transport->setTransporteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransport(Transport $transport): self
+    {
+        if ($this->transports->contains($transport)) {
+            $this->transports->removeElement($transport);
+            // set the owning side to null (unless already changed)
+            if ($transport->getTransporteur() === $this) {
+                $transport->setTransporteur(null);
+            }
+        }
 
         return $this;
     }
