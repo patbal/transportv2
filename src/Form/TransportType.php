@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Adresse;
 use App\Entity\Contact;
 use App\Entity\Transport;
+use App\Entity\Transporteur;
 use App\Entity\Vehicule;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Doctrine\ORM\EntityRepository;
@@ -43,6 +44,12 @@ class TransportType extends AbstractType
             ->add('typeVehicule',   EntityType::class, array(
                 'class'        => Vehicule::class,
                 'choice_label' => 'typevehicule',
+                'multiple'     => false,
+                'expanded'     => false))
+            ->add('transporteur',   EntityType::class, array(
+                'class'        => Transporteur::class,
+                'choice_label' => 'nom',
+                'placeholder'  => '---',
                 'multiple'     => false,
                 'expanded'     => false))
             ->add('expediteur', entityType::class, array(
@@ -132,6 +139,8 @@ class TransportType extends AbstractType
                 $event->getForm()->remove('destinataire');
                 $event->getForm()->remove('contactExpediteur');
                 $event->getForm()->remove('contactDestinataire');
+                $event->getForm()->add('avecHayon');
+                $event->getForm()->add('nombreJoursExploitation');
             }
 
                 //$data = $event->getData();

@@ -4,7 +4,19 @@
 
 {% block body %}
 
-<div class="container pt-5">
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 ml-4">
+            <span class="btn btn-sm btn-outline-dark text-matchy" id="ontransports">transports</span>
+            <span class="btn btn-sm btn-outline-dark text-matchy" id="oncourses">courses</span>
+            <span class="btn btn-sm btn-outline-dark text-matchy" id="onlocations">locations</span>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+</div>
+<div class="container pt-4">
     <div class="row">
         <div class="container text-center col-1 order-1 text-matchm text-monospace">
             <h1 class="vertical">liste des transports</h1>
@@ -14,8 +26,8 @@
                 <tr class="text-matchy">
                     <th>NUMÉRO</th>
                     <th>FOURNISSEUR</th>
-                    <th>ENL.</th>
-                    <th>LIV.</th>
+                    <th>ENLĒVEMENT</th>
+                    <th>LIVRAISON.</th>
                     <th>JOB</th>
                     <th>REM</th>
                 </tr>
@@ -51,5 +63,28 @@
 {##}
 {% block javascripts %}
     {{ parent() }}
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script>
+            $transports = $("tr[id^='transport_']");
+            $locations = $("tr[id^='location_']");
+            $courses = $("tr[id^='course_']");
+            $ontransports = $("#ontransports");
+            $onlocations = $("#onlocations");
+            $oncourses = $("#oncourses");
+
+            $ontransports.click(function(){
+                $ontransports.toggleClass("text-matchy text-muted");
+                $transports.toggle();
+            })
+            $onlocations.click(function(){
+                $onlocations.toggleClass("text-matchy text-muted");
+                $locations.toggle();
+            })
+            $oncourses.click(function(){
+                $oncourses.toggleClass("text-matchy text-muted");
+                $courses.toggle();
+            })
+        </script>
+
 
 {% endblock %}

@@ -146,6 +146,16 @@ class Transport
      */
     private $transporteur;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $avecHayon;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nombreJoursExploitation;
+
 
     public function __construct()
     {
@@ -460,6 +470,30 @@ class Transport
     public function setTransporteur(?Transporteur $transporteur): self
     {
         $this->transporteur = $transporteur;
+
+        return $this;
+    }
+
+    public function getAvecHayon(): ?bool
+    {
+        return $this->avecHayon;
+    }
+
+    public function setAvecHayon(?bool $avecHayon): self
+    {
+        $this->avecHayon = $avecHayon;
+
+        return $this;
+    }
+
+    public function getNombreJoursExploitation(): ?int
+    {
+        return $this->nombreJoursExploitation;
+    }
+
+    public function setNombreJoursExploitation(?int $nombreJoursExploitation): self
+    {
+        $this->nombreJoursExploitation = $nombreJoursExploitation;
 
         return $this;
     }

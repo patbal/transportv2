@@ -18,10 +18,7 @@
         <div class="border-bottom border-top container sticky-top nav-scroller py-1 mb-2 bg-light">
             <nav class="nav d-flex justify-content-between">
                 <span class="nav-item">
-                    <a class="p-2 text-muted text-matchm" href="{{ path('form') }}">liste transports</a>
-                </span>
-                <span class="nav-item">
-                    <a class="p-2 text-muted text-matchm" href="{{ path('form') }}">liste locations</a>
+                    <a class="p-2 text-muted text-matchm" href="{{ path('transports') }}">liste transports</a>
                 </span>
                 <span class="nav-item">
                     <a class="p-2 text-muted dropdown-toggle"
@@ -46,7 +43,7 @@
                        href="#"
                        role="button"
                        aria-haspopup="true"
-                       aria-expanded="false"><i class="fas fa-key"></i> admin - add</a>
+                       aria-expanded="false">admin - add</a>
                     <span class="dropdown-menu" aria-labelledby="Preview1">
                         <a class="dropdown-item p-2 text-muted" href="{{ path('ajoutTransporteur')}}">ajout fournisseur</a>
                         <a class="dropdown-item p-2 text-muted" href="{{ path('ajoutContact')}}">ajout contact</a>
@@ -60,7 +57,7 @@
                        href="#"
                        role="button"
                        aria-haspopup="true"
-                       aria-expanded="false"><i class="fas fa-key"></i> admin - view / edit</a>
+                       aria-expanded="false">admin - view / edit</a>
                     <span class="dropdown-menu" aria-labelledby="Preview2">
                         <a class="dropdown-item p-2 text-muted" href="{{ path('transporteurs')}}">liste fournisseurs</a>
                         <a class="p-2 text-muted dropdown-item" href="{{ path('adresses') }}">liste adresses</a>

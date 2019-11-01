@@ -21,6 +21,7 @@
                         {% if transport.typeDemande == 'course' %}
                             {{ form_row(form.numeroLocasyst, {'label': 'Numéro Locasyst'}) }}
                             {{ form_row(form.description, {'label': 'Desc. - Opération'}) }}
+                            {{ form_row(form.transporteur, {'label': 'Coursier'})}}
                             {{ form_row(form.expediteur, {'label': 'Enlèvement '}) }}
                             {{ form_row(form.contactExpediteur, {'label': 'Contact enlèvement'}) }}
                             {{ form_row(form.destinataire, {'label': 'Livraison'}) }}
@@ -36,6 +37,7 @@
                         {% if transport.typeDemande == 'transport' %}
                             {{ form_row(form.numeroLocasyst, {'label': 'Numéro Locasyst'}) }}
                             {{ form_row(form.description, {'label': 'Desc. - Opération'}) }}
+                            {{ form_row(form.transporteur, {'label': 'Transporteur'})}}
                             {{ form_row(form.expediteur, {'label': 'Enlèvement '}) }}
                             {{ form_row(form.contactExpediteur, {'label': 'Contact enlèvement'}) }}
                             {{ form_row(form.destinataire, {'label': 'Livraison'}) }}
@@ -51,11 +53,14 @@
                         {% if transport.typeDemande == 'location' %}
                             {{ form_row(form.numeroLocasyst, {'label': 'numéro Locasyst'}) }}
                             {{ form_row(form.description, {'label': 'Desc. - Opération'}) }}
+                            {{ form_row(form.transporteur, {'label': 'Loueur'})}}
                             {{ form_row(form.datePickup, {'label': 'enlèvement le'})}}
                             {{ form_row(form.pickupTime, {'label': 'à'})}}
                             {{ form_row(form.dateDelivery, {'label': 'retour le'})}}
                             {{ form_row(form.deliveryTime, {'label': 'à'})}}
+                            {{ form_row(form.nombreJoursExploitation, {'label': 'Nb jours exploit.'})}}
                             {{ form_row(form.typeVehicule) }}
+                            {{ form_row(form.avecHayon, {'label': 'avec hayon'})}}
                             {{ form_row(form.remarque) }}
                             {{ form_row(form.save, {'attr': {'class': 'btn btn-block btn-info'}}) }}
                         {% endif %}
